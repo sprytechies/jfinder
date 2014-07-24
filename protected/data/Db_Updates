@@ -1,0 +1,132 @@
+2/25/2014
+ALTER TABLE  `user_jobs` ADD  `idusers` INT( 11 ) NOT NULL ;
+ALTER TABLE  `user_profile` ADD  `idusers` INT( 11 ) NOT NULL ;
+ALTER TABLE  `user_projects` CHANGE  `from`  `fromtime` TIMESTAMP NULL DEFAULT NULL ,
+CHANGE  `to`  `totime` TIMESTAMP NULL DEFAULT NULL ;
+ALTER TABLE  `user_projects` ADD  `idusers` INT( 11 ) NOT NULL ;
+ALTER TABLE  `user_workex` ADD  `idusers` INT( 11 ) NOT NULL ;
+ALTER TABLE  `jobs` CHANGE  `from`  `datefrom` TIMESTAMP NULL DEFAULT NULL ,
+CHANGE  `to`  `dateto` TIMESTAMP NULL DEFAULT NULL ;
+ALTER TABLE  `jobs` CHANGE  `idjobs`  `idjobs` INT( 11 ) NOT NULL ,
+CHANGE  `datefrom`  `datefrom` TIMESTAMP NULL DEFAULT NULL ,
+CHANGE  `dateto`  `dateto` TIMESTAMP NULL DEFAULT NULL ,
+CHANGE  `title`  `title` VARCHAR( 512 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+CHANGE  `description`  `description` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+CHANGE  `type`  `type` VARCHAR( 45 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+CHANGE  `amountfrom`  `amountfrom` INT( 16 ) NULL DEFAULT NULL ,
+CHANGE  `amountto`  `amountto` INT( 16 ) NULL DEFAULT NULL ,
+CHANGE  `keywords`  `keywords` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+CHANGE  `cdate`  `cdate` TIMESTAMP NOT NULL ,
+CHANGE  `mdate`  `mdate` TIMESTAMP NOT NULL ,
+CHANGE  `confirmation`  `confirmation` INT( 4 ) NULL ;
+
+1-march-2014
+-------------company_users
+Alter table company_users modify idusers int(11);
+Alter table company_users modify idcompanies int(11);
+Alter table company_users add foreign key (idcompanies) references companies (idcompanies);
+
+-------------jobs table
+Alter table jobs add idcompany int(11);
+Alter table jobs add location varchar(255);
+Alter table jobs add foreign key (idcompany) references companies (idcompanies);
+
+-------------changed user_workex to user_edu
+Rename table user_workex to user_edu;
+Alter table user_edu add idusers int(11);
+Alter table user_edu add foreign key (idusers) references users (idusers);
+
+-------------changed user_jobs to user_exp
+Rename table user_jobs to user_exp;
+Alter table user_exp add idusers int(11);
+Alter table user_exp add foreign key (idusers) references users (idusers);
+
+------------user profile
+Alter table user_profile add idusers int(11);
+Alter table user_profile add image varchar(255);
+
+------------user_oauth table -came from login with linkedin
+CREATE TABLE IF NOT EXISTS `user_oauth` (
+  `user_id` int(11) NOT NULL,
+  `provider` varchar(45) NOT NULL,
+  `identifier` varchar(64) NOT NULL,
+  `profile_cache` text,
+  `session_data` text,
+  PRIMARY KEY (`provider`,`identifier`),
+  UNIQUE KEY `unic_user_id_name` (`user_id`,`provider`),
+  KEY `oauth_user_id` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+3/4/2014
+
+CREATE TABLE IF NOT EXISTS `job_invites` (
+  `idjobinvites` int(11) NOT NULL AUTO_INCREMENT,
+  `idjobsapplied` int(11) NOT NULL,
+  `description` varchar(1024) DEFAULT NULL,
+  `cdate` timestamp NULL DEFAULT NULL,
+  `mdate` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `invitedon` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`idjobinvites`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+4/march/2014
+
+ALTER TABLE user_exp CHANGE idjobs idexp INT AUTO_INCREMENT;
+ALTER TABLE user_edu CHANGE idworkex idedu INT AUTO_INCREMENT;
+ALTER TABLE company_users CHANGE idcompany_users idcompany_users INT AUTO_INCREMENT;
+Alter table company_users add foreign key (idusers) references users (idusers);
+ALTER TABLE jobs CHANGE idjobs idjobs INT(11) AUTO_INCREMENT;
+ALTER TABLE user_profile CHANGE iduser_profile iduser_profile INT(11) AUTO_INCREMENT;
+Alter table user_profile add foreign key (idusers) references users (idusers);
+ALTER TABLE companies CHANGE idcompanies idcompanies INT AUTO_INCREMENT;
+ALTER TABLE jobs_applied CHANGE idjobsapplied idjobsapplied INT(11) AUTO_INCREMENT;
+Alter table jobs_applied modify idjobs int(11);
+Alter table jobs_applied modify idusers int(11);
+Alter table jobs_applied add foreign key (idjobs) references jobs (idjobs);
+Alter table jobs_applied add foreign key (idusers) references users (idusers);
+Alter table job_invites add foreign key (idjobsapplied) references jobs_applied (idjobsapplied);
+
+ from 1/may/2014 by Deependra
+ALTER TABLE `companies` CHANGE `idcompanies` `idcompanies` INT( 11 ) NOT NULL AUTO_INCREMENT 
+ALTER TABLE `jobs` CHANGE `idjobs` `idjobs` INT( 11 ) NOT NULL AUTO_INCREMENT 
+ALTER TABLE `user_profile` CHANGE `iduser_profile` `iduser_profile` INT( 11 ) NOT NULL AUTO_INCREMENT
+ALTER TABLE `user_edu` CHANGE `idworkex` `idworkex` INT( 11 ) NOT NULL AUTO_INCREMENT 
+ALTER TABLE `user_projects` CHANGE `idprojects` `idprojects` INT( 11 ) NOT NULL AUTO_INCREMENT 
+ALTER TABLE `jobs_applied` CHANGE `idjobsapplied` `idjobsapplied` INT( 45 ) NOT NULL AUTO_INCREMENT
+ALTER TABLE `jobs` add foreign key (idcompany) references companies(idcompanies)  
+
+22-05-2014 by Sprymohit
+ALTER TABLE  `job_invites` ADD  `title` VARCHAR( 64 ) NOT NULL AFTER  `idjobsapplied`
+ALTER TABLE  `job_invites` ADD  `status` TINYINT( 1 ) NOT NULL DEFAULT  '0'
+
+29-05-2014 by Sprymohit
+CREATE TABLE IF NOT EXISTS `interviews` (
+  `idinterview` int(11) NOT NULL AUTO_INCREMENT,
+  `idjobs` int(11) NOT NULL,
+  `idusers` int(11) NOT NULL,
+  `starttime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `endtime` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`idinterview`),
+  KEY `idusers` (`idusers`),
+  KEY `idjobs` (`idjobs`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+CREATE TABLE IF NOT EXISTS `interview_messaage` (
+  `idinterview_message` int(11) NOT NULL AUTO_INCREMENT,
+  `idinterview` int(11) NOT NULL,
+  `idusers` int(11) NOT NULL,
+  `cdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `mdate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `message` text NOT NULL,
+  PRIMARY KEY (`idinterview_message`),
+  KEY `idusers` (`idusers`),
+  KEY `idinterview` (`idinterview`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ; 
+
+2-06-2014 by Sprymohit
+ALTER TABLE `users` ADD `last_activity` TIMESTAMP NULL AFTER `status` 
+
+/****** note: Before starting a web conferencing you should have node js installed on your system.
+        start socket server.
+        go to jfinder/sockectserver/www through terminal. write "node server.js" and hit enter. *****/

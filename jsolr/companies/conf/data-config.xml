@@ -1,0 +1,13 @@
+<dataConfig>
+ <dataSource type="JdbcDataSource" driver="com.mysql.jdbc.Driver"
+                     url="jdbc:mysql://localhost/jfinder" 
+                        user="root" password=""/>
+ <document>
+     <entity name="id" 
+          query="select col1,col2,col3 from mytable">
+        <field column="col1" name="solr_field1"/>
+        <field column="col2" name="solr_field2"/>
+        <field column="col3" name="solr_field3"/>
+     </entity>
+ </document>
+</dataConfig>

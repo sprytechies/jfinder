@@ -1,0 +1,35 @@
+<dataConfig>
+ <dataSource type="JdbcDataSource" driver="com.mysql.jdbc.Driver"
+                     url="jdbc:mysql://localhost/jfinder" 
+                        user="root" password=""/>
+ <document>
+     <entity name="jobs" 
+          query="select * from jobs">
+        <field column="idjobs" name="idjobs"/>
+        <field column="idcompany" name="idcompany"/>
+        <field column="title" name="title"/>
+        <field column="description" name="title"/>
+        <field column="type" name="title"/>
+        <field column="confirmation" name="title"/>
+        <field column="datefrom" name="title"/>
+        <field column="dateto" name="title"/>
+        <field column="location" name="title"/>
+        <field column="amountfrom" name="title"/>
+        <field column="amountto" name="title"/>
+     </entity>
+     <entity name="jobs" 
+          query="select * from jobs">
+        <field column="idjobs" name="idjobs"/>
+        <field column="idcompany" name="idcompany"/>
+        <field column="title" name="title"/>
+        <field column="description" name="title"/>
+        <field column="type" name="title"/>
+        <field column="confirmation" name="title"/>
+        <field column="datefrom" name="title"/>
+        <field column="dateto" name="title"/>
+        <field column="location" name="title"/>
+        <field column="amountfrom" name="title"/>
+        <field column="amountto" name="title"/>
+     </entity>
+ </document>
+</dataConfig>

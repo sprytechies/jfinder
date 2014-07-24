@@ -1,0 +1,39 @@
+<h1>Company</h1>
+<?php
+$this->widget('bootstrap.widgets.TbGridView', array(
+    'dataProvider'=>$model->search(),
+    'type'=>'striped bordered condensed hover ',
+    'filter'=>$model,
+    'columns' => array(
+        array('header'=>'Name',
+	      'value'=>'$data->name'
+	),
+	array('header'=>'Url',
+	      'value'=>'$data->url'
+	),
+	array('header'=>'Country',
+	      'value'=>'$data->country'
+	),
+	array('header'=>'Description',
+	      'value'=>'$data->description'
+	),
+	array('header'=>'State',
+	      'value'=>'$data->state'
+	),
+	array('header'=>'City',
+	      'value'=>'$data->city'
+	),
+	array('header'=>'Address',
+	      'value'=>'$data->address'
+	),
+	array('header'=>'Pin',
+	      'value'=>'$data->pin'
+	),
+	array('header'=>'Phone',
+	      'value'=>'$data->phone'
+	),
+	array('header'=>'Person',
+	      'value'=>'$data->person'
+	),
+     )	
+));
